@@ -5,9 +5,9 @@ This repository is documentation-first. Agents should build from these documents
 Before adding or changing code, read:
 
 1. `README.md`
-2. `docs/documentation/README.md`
-3. `docs/documentation/MONOREPO.md`
-4. `docs/documentation/AGENT_BUILD_PLAN.md`
+2. `docs/README.md`
+3. `docs/MONOREPO.md`
+4. `docs/AGENT_BUILD_PLAN.md`
 
 ## Hard rules
 
@@ -17,9 +17,10 @@ Before adding or changing code, read:
 - Use `libs/ArevKit/` for shared Swift/SwiftUI code.
 - Use `data/` for source/generated data.
 - Use `tools/` for repository tooling.
-- Use `docs/documentation/` for all long-form documentation.
-- Do not create extra top-level folders without updating `docs/documentation/MONOREPO.md`.
+- Use `docs/` for all long-form documentation.
+- Do not create extra top-level folders without updating `docs/MONOREPO.md`.
 - Do not create extra documentation roots.
+- Do not create `docs/documentation/`.
 - Do not create `Common`, `Shared`, `Utils`, `Helpers`, `Components`, or similar root folders.
 - Put shared behavior in `ArevKit`.
 - App targets should mostly contain game-specific registration, assets, app metadata, and mode configuration.
@@ -62,7 +63,7 @@ arevgames/
   tools/
     export-arev-data/
   docs/
-    documentation/
+    apps/
   .github/
     workflows/
 ```
@@ -176,9 +177,9 @@ Minimum tests:
 
 ## Documentation rules
 
-- Update existing files in `docs/documentation/` when possible.
-- Do not create `docs/specs`, `docs/plans`, `documentation`, `notes`, `architecture`, or similar folders.
-- App specs belong in `docs/documentation/apps/`.
+- Update existing files in `docs/` when possible.
+- Do not create `docs/documentation`, `docs/specs`, `docs/plans`, root `documentation`, `notes`, `architecture`, or similar folders.
+- App specs belong in `docs/apps/`.
 - Root docs should stay limited to `README.md`, `AGENTS.md`, and future conventional files such as `LICENSE.md` or `CONTRIBUTING.md`.
 
 ## Definition of done
