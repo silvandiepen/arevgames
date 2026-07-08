@@ -19,11 +19,35 @@ libs/ArevKit/
   Tests/
 ```
 
+## Third-party dependency ownership
+
+Third-party UI/rendering dependencies belong in ArevKit, not in app targets.
+
+Required dependencies:
+
+```txt
+SVGKit
+https://github.com/SVGKit/SVGKit
+
+PopupView
+https://github.com/exyte/PopupView.git
+exactVersion: 5.0.2
+```
+
+Rules:
+
+- App targets should not import SVGKit directly.
+- App targets should not import PopupView directly.
+- ArevKitUI owns popup wrappers.
+- ArevKitUI/ArevKitMap own SVG rendering wrappers.
+- ArevKitMap owns hit testing and map interaction logic.
+- If a dependency needs to be changed later, app targets should not need code changes.
+
 ## Module responsibilities
 
 ### ArevKitCore
 
-No SwiftUI. No GameKit. No app imports.
+No SwiftUI. No GameKit. No SVGKit. No PopupView. No app imports.
 
 Owns:
 
@@ -61,8 +85,10 @@ Owns:
 - Answer grids.
 - Study views.
 - Result screens.
-- Settings sheets.
+- Settings popups.
+- Popup wrappers based on PopupView.
 - Shared buttons/cards/pills.
+- SVG rendering wrappers for UI use.
 - Typography and spacing tokens.
 
 ### ArevKitMap
@@ -71,6 +97,7 @@ Owns:
 
 - World map rendering.
 - Country shape rendering.
+- SVGKit integration for map/shape rendering where useful.
 - Map viewport.
 - Zoom/pan behavior.
 - Coordinate projection.
