@@ -11,6 +11,7 @@ Project and repository:
 - [`PRODUCT.md`](./PRODUCT.md) — product scope and app boundaries.
 - [`MONOREPO.md`](./MONOREPO.md) — required repo structure and anti-mess rules.
 - [`AGENT_BUILD_PLAN.md`](./AGENT_BUILD_PLAN.md) — phased implementation plan for Codex/agents.
+- [`WEBSITE.md`](./WEBSITE.md) — static marketing website scope, stack, routes, and deployment.
 
 Shared systems:
 
@@ -19,7 +20,7 @@ Shared systems:
 - [`GAME_MODES.md`](./GAME_MODES.md) — complete mode catalog.
 - [`GAME_SYSTEMS.md`](./GAME_SYSTEMS.md) — scoring, rounds, settings, progress, feedback.
 - [`GAME_CENTER.md`](./GAME_CENTER.md) — leaderboards, achievements, official presets, offline behavior.
-- [`UI.md`](./UI.md) — shared UI system, screens, components, map/flag rendering.
+- [`UI.md`](./UI.md) — shared UI system, screens, components, map/flag rendering, splash/logo rules.
 - [`PRIVACY_ACCESSIBILITY.md`](./PRIVACY_ACCESSIBILITY.md) — privacy, child-safe defaults, accessibility.
 - [`TESTING_CI.md`](./TESTING_CI.md) — test matrix and CI rules.
 - [`APP_STORE.md`](./APP_STORE.md) — App Store copy, release, review, privacy notes.
@@ -35,6 +36,6 @@ App specs:
 
 Root-level Markdown should stay limited to conventional files such as `README.md`, `AGENTS.md`, `LICENSE.md`, and `CONTRIBUTING.md`.
 
-All long-form product, architecture, app, and implementation docs belong in this `docs/` folder.
+All long-form product, architecture, app, website, and implementation docs belong in this `docs/` folder.
 
 App specs belong in `docs/apps/`.
