@@ -109,7 +109,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          swift test || true
+          swift test
 
       - name: List Xcode workspace schemes
         if: ${{ hashFiles('ArevGames.xcworkspace/**') != '' }}
