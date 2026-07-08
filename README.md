@@ -15,10 +15,11 @@ Modes may vary the mechanic, but they must support the same objective. Do not tu
 Use this structure:
 
 ```txt
-apps/                 # app targets only
+apps/                 # native app targets only
 libs/ArevKit/          # shared Swift/SwiftUI libraries
 data/                 # source and generated local data
 tools/                # repository tooling, including ArevData export
+site/                 # static marketing website
 docs/                 # all long-form docs and specs
 .github/workflows/    # CI
 ```
@@ -36,6 +37,12 @@ Do not create random top-level folders, extra documentation roots, duplicated sh
 
 Future apps may include Arev Capitals, Arev Shapes, Arev Neighbours, or Arev Space, but they should not be started until the shared harness and first apps are stable.
 
+## Website
+
+The repo also includes a static marketing website in `site/`, matching the Luys-style stack: Vue 3, Vite, Vue Router, Sass, `@sil/ui`, `vue-tsc`, and Cloudflare Pages static deployment.
+
+The website should explain the ArevGames family, list apps, link to App Store pages when live, provide privacy pages, and link ArevData as the source data project.
+
 ## Principles
 
 - Native iOS first.
@@ -49,6 +56,7 @@ Future apps may include Arev Capitals, Arev Shapes, Arev Neighbours, or Arev Spa
 - Calm learning, not timer pressure.
 - Small apps, shared implementation.
 - ArevData is the source of truth for countries, flags, maps, cities, capitals, geography, and related metadata.
+- Open-source CI should build and test as much as practical.
 
 ## Source data
 
@@ -64,6 +72,10 @@ Primary package candidates:
 
 The iOS apps should consume generated local JSON/assets, not call the hosted API during gameplay.
 
+## Branding
+
+Use the ArevData/arev logo from arevdata.com/source assets as the family mark and app splash mark. Do not redraw it manually.
+
 ## Documentation index
 
 Start here:
@@ -72,6 +84,7 @@ Start here:
 - [`docs/README.md`](./docs/README.md) — documentation index and placement rules.
 - [`docs/PRODUCT.md`](./docs/PRODUCT.md) — product scope and app boundaries.
 - [`docs/MONOREPO.md`](./docs/MONOREPO.md) — clean monorepo structure.
+- [`docs/WEBSITE.md`](./docs/WEBSITE.md) — static marketing website scope and stack.
 - [`docs/AREVKIT.md`](./docs/AREVKIT.md) — shared framework responsibilities and core protocols.
 - [`docs/DATA.md`](./docs/DATA.md) — ArevData audit, export pipeline, and missing data requirements.
 - [`docs/GAME_MODES.md`](./docs/GAME_MODES.md) — complete mode catalog.
@@ -92,14 +105,17 @@ App specs:
 
 ## First build target
 
-Build the shared foundation and Arev Flags first:
+Build the shared foundation, CI, website scaffold, and Arev Flags first:
 
 1. Create the documented monorepo folders.
-2. Create the Xcode workspace and Swift packages.
-3. Create `libs/ArevKit` modules.
-4. Create the data export pipeline from ArevData into bundled JSON/assets.
-5. Build Arev Flags as the first app.
-6. Add Game Center behind a protocol.
-7. Add Arev Pinpoint after the map interaction layer is ready.
-8. Add Arev Guess the Country after flag, shape, capital, and map clue renderers exist.
-9. Add Arev Map Tap using the same map renderer with simpler scoring.
+2. Create GitHub CI.
+3. Create the Xcode workspace and Swift packages.
+4. Create `libs/ArevKit` modules.
+5. Create the data export pipeline from ArevData into bundled JSON/assets.
+6. Copy the ArevData logo into the documented brand/splash asset locations.
+7. Scaffold the `site/` website.
+8. Build Arev Flags as the first app.
+9. Add Game Center behind a protocol.
+10. Add Arev Pinpoint after the map interaction layer is ready.
+11. Add Arev Guess the Country after flag, shape, capital, and map clue renderers exist.
+12. Add Arev Map Tap using the same map renderer with simpler scoring.
