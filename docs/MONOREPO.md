@@ -47,13 +47,15 @@ arevgames/
 
 App targets only. Each app folder may contain app entry, bundle metadata, assets, entitlements, app-specific mode registration, strings, and Game Center IDs.
 
-App folders must not contain reusable UI, map engines, scoring, data loading, generic quiz logic, progress stores, or Game Center implementation.
+App folders must not contain reusable UI, popup wrappers, SVG rendering wrappers, map engines, scoring, data loading, generic quiz logic, progress stores, or Game Center implementation.
 
 ### `libs/`
 
 Shared libraries only. `libs/ArevKit` is the shared Swift package.
 
 Do not create root folders named `Common`, `Shared`, `Utils`, `Helpers`, `Components`, or similar. Shared code goes into the correct ArevKit module.
+
+Third-party dependencies used by shared UI/rendering should be declared for ArevKit and wrapped inside ArevKit modules. App targets should depend on ArevKit, not directly on UI/rendering packages such as SVGKit or PopupView.
 
 ### `data/`
 
@@ -118,8 +120,11 @@ apps/* -> libs/ArevKit
 ArevKitUI -> ArevKitCore
 ArevKitUI -> ArevKitData
 ArevKitUI -> ArevKitMap
+ArevKitUI -> PopupView
+ArevKitUI -> SVGKit
 ArevKitData -> ArevKitCore
 ArevKitMap -> ArevKitCore
+ArevKitMap -> SVGKit
 ArevKitGameCenter -> ArevKitCore
 ArevKitTesting -> all ArevKit modules
 ```
@@ -127,8 +132,12 @@ ArevKitTesting -> all ArevKit modules
 Forbidden:
 
 ```txt
+apps/* -> PopupView
+apps/* -> SVGKit
 ArevKitCore -> SwiftUI
 ArevKitCore -> GameKit
+ArevKitCore -> PopupView
+ArevKitCore -> SVGKit
 ArevKitData -> apps/*
 ArevKitMap -> apps/*
 ArevKitGameCenter -> apps/*
@@ -142,6 +151,8 @@ Agents must not:
 - Create undocumented top-level folders.
 - Create another docs root.
 - Put shared components inside app folders.
+- Import PopupView directly in app targets.
+- Import SVGKit directly in app targets.
 - Add random `Utils.swift`, `Helpers.swift`, or `Extensions.swift` without a clear module/type purpose.
 - Duplicate logic across apps.
 - Put generated files beside source code when `data/generated` is the source of truth.
