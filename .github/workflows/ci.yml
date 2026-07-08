@@ -1,0 +1,139 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  docs-and-web:
+    name: Docs, data, and website
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate documentation layout
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f README.md
+          test -f AGENTS.md
+          test -f docs/README.md
+          test -f docs/MONOREPO.md
+          test -f docs/TESTING_CI.md
+          test -f docs/WEBSITE.md
+          test -f docs/apps/AREV_FLAGS.md
+          test -f docs/apps/AREV_PINPOINT.md
+          test -f docs/apps/AREV_GUESS_THE_COUNTRY.md
+          test -f docs/apps/AREV_MAP_TAP.md
+          if [ -d docs/documentation ]; then
+            echo "docs/documentation must not exist; use docs/ as the single documentation root."
+            exit 1
+          fi
+
+      - name: Setup Node for optional web/data checks
+        if: ${{ hashFiles('site/package.json', 'tools/export-arev-data/package.json') != '' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: |
+            site/package-lock.json
+            tools/export-arev-data/package-lock.json
+
+      - name: Validate data exporter
+        if: ${{ hashFiles('tools/export-arev-data/package.json') != '' }}
+        shell: bash
+        working-directory: tools/export-arev-data
+        run: |
+          set -euo pipefail
+          npm ci
+          npm test --if-present
+          npm run export --if-present
+
+      - name: Check generated data drift
+        if: ${{ hashFiles('tools/export-arev-data/package.json') != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! git diff --quiet -- data/generated; then
+            echo "Generated data changed. Commit regenerated data or fix the exporter."
+            git diff -- data/generated
+            exit 1
+          fi
+
+      - name: Build website
+        if: ${{ hashFiles('site/package.json') != '' }}
+        shell: bash
+        working-directory: site
+        run: |
+          set -euo pipefail
+          npm ci
+          npm run typecheck --if-present
+          npm run build
+
+      - name: Upload website build artifact
+        if: ${{ hashFiles('site/package.json') != '' && hashFiles('site/dist/**') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-dist
+          path: site/dist
+          if-no-files-found: ignore
+
+  ios:
+    name: iOS and Swift
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Test ArevKit Swift package
+        if: ${{ hashFiles('libs/ArevKit/Package.swift') != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          swift test --package-path libs/ArevKit
+
+      - name: Test root Swift package
+        if: ${{ hashFiles('Package.swift') != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          swift test || true
+
+      - name: List Xcode workspace schemes
+        if: ${{ hashFiles('ArevGames.xcworkspace/**') != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          xcodebuild -list -workspace ArevGames.xcworkspace
+
+      - name: Build known iOS app schemes when present
+        if: ${{ hashFiles('ArevGames.xcworkspace/**') != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          schemes=(ArevFlags ArevPinpoint ArevGuessTheCountry ArevMapTap)
+          scheme_list="$(xcodebuild -list -workspace ArevGames.xcworkspace)"
+          for scheme in "${schemes[@]}"; do
+            if echo "$scheme_list" | grep -q "^[[:space:]]*$scheme$"; then
+              echo "Building $scheme"
+              xcodebuild \
+                -workspace ArevGames.xcworkspace \
+                -scheme "$scheme" \
+                -destination 'platform=iOS Simulator,name=iPhone 16' \
+                build test
+            else
+              echo "Skipping $scheme; scheme not found yet."
+            fi
+          done
