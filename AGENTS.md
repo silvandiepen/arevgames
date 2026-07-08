@@ -8,15 +8,18 @@ Before adding or changing code, read:
 2. `docs/README.md`
 3. `docs/MONOREPO.md`
 4. `docs/AGENT_BUILD_PLAN.md`
+5. `docs/TESTING_CI.md`
+6. `docs/WEBSITE.md`
 
 ## Hard rules
 
 - Keep apps small.
 - Keep the monorepo clean.
-- Use `apps/` for app targets only.
+- Use `apps/` for native app targets only.
 - Use `libs/ArevKit/` for shared Swift/SwiftUI code.
 - Use `data/` for source/generated data.
 - Use `tools/` for repository tooling.
+- Use `site/` for the static marketing website.
 - Use `docs/` for all long-form documentation.
 - Do not create extra top-level folders without updating `docs/MONOREPO.md`.
 - Do not create extra documentation roots.
@@ -25,6 +28,8 @@ Before adding or changing code, read:
 - Put shared behavior in `ArevKit`.
 - App targets should mostly contain game-specific registration, assets, app metadata, and mode configuration.
 - Use ArevData as the source of truth.
+- Use the ArevData/arev logo from arevdata.com/source assets for the app splash and site brand mark.
+- Do not redraw or approximate the ArevData logo manually.
 - Do not depend on the hosted ArevData API during gameplay.
 - Do not create accounts, analytics, ads, subscriptions, or social features outside Game Center.
 - Do not add timer pressure unless a future document explicitly requests it.
@@ -62,6 +67,7 @@ arevgames/
     generated/
   tools/
     export-arev-data/
+  site/
   docs/
     apps/
   .github/
@@ -74,7 +80,7 @@ Use conventional commits.
 
 Examples:
 
-- `docs: add pinpoint game spec`
+- `docs: add website spec`
 - `feat(arevkit): add shared round engine`
 - `feat(flags): add flag to country mode`
 - `test(pinpoint): cover distance scoring`
@@ -88,15 +94,29 @@ Commit continuously by feature. Do not make one giant final commit.
 Start shared-first, then app-specific.
 
 1. Create repository structure.
-2. Create the Swift package/workspace foundation.
-3. Create `libs/ArevKit` modules.
-4. Create data export tooling and generated sample data.
-5. Build common UI and game flow.
-6. Build Arev Flags as the first vertical slice.
-7. Add Game Center adapter behind a protocol.
-8. Add Pinpoint map infrastructure.
-9. Add remaining apps using shared components.
-10. Add tests, CI, screenshots, and app metadata.
+2. Create GitHub CI.
+3. Create the Swift package/workspace foundation.
+4. Create `libs/ArevKit` modules.
+5. Create data export tooling and generated sample data.
+6. Copy/export the ArevData logo into the documented brand/splash asset locations.
+7. Scaffold the website in `site/`.
+8. Build common UI and game flow.
+9. Build Arev Flags as the first vertical slice.
+10. Add Game Center adapter behind a protocol.
+11. Add Pinpoint map infrastructure.
+12. Add remaining apps using shared components.
+13. Add tests, screenshots, app metadata, and website content.
+
+## CI rules
+
+- Keep CI green at every stage.
+- CI should be safe before app code exists.
+- Use conditional steps where needed.
+- Build and test as much as GitHub-hosted runners allow.
+- Build the website when `site/package.json` exists.
+- Run data export validation when `tools/export-arev-data/package.json` exists.
+- Run Swift package tests when `libs/ArevKit/Package.swift` exists.
+- Build iOS app schemes when the workspace/project exists.
 
 ## ArevKit ownership
 
@@ -105,7 +125,7 @@ Start shared-first, then app-specific.
 - App shell.
 - Navigation.
 - Theme and tokens.
-- Shared buttons/cards/sheets.
+- Shared buttons/cards/sheets/popups.
 - Round flow.
 - Question generation primitives.
 - Answer validation primitives.
@@ -127,6 +147,14 @@ App targets should own:
 - Copy strings specific to the app.
 - Game-specific mode configuration.
 - Game Center leaderboard IDs specific to that app.
+
+## Website rules
+
+- Website files belong in `site/` only.
+- Use Vue 3, Vite, Vue Router, Sass, `@sil/ui`, and `vue-tsc`.
+- Build static output for Cloudflare Pages.
+- No backend, accounts, analytics, CMS, or forms that store data in v1.
+- The website should build without secrets.
 
 ## Data rules
 
@@ -174,6 +202,7 @@ Minimum tests:
 - Game Center adapter behavior via test double.
 - Local progress persistence.
 - Accessibility labels for core components.
+- Website typecheck/build.
 
 ## Documentation rules
 
@@ -186,10 +215,11 @@ Minimum tests:
 
 A feature is done when:
 
-- It is implemented in the correct shared/app layer.
+- It is implemented in the correct shared/app/site layer.
 - It has unit tests where applicable.
 - It does not introduce remote gameplay dependencies.
-- It has accessible labels and dynamic type handling.
-- It works in light and dark mode.
-- It has no obvious duplicated logic from another app.
-- It is documented if it changes architecture, data shape, scoring, or Game Center behavior.
+- It has accessible labels and dynamic type handling where applicable.
+- It works in light and dark mode where applicable.
+- It has no obvious duplicated logic from another app/site/shared module.
+- CI remains green.
+- It is documented if it changes architecture, data shape, scoring, UI, website, CI, or Game Center behavior.
