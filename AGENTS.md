@@ -2,9 +2,25 @@
 
 This repository is documentation-first. Agents should build from these documents without asking product-scope questions unless a hard technical blocker exists.
 
+Before adding or changing code, read:
+
+1. `README.md`
+2. `docs/documentation/README.md`
+3. `docs/documentation/MONOREPO.md`
+4. `docs/documentation/AGENT_BUILD_PLAN.md`
+
 ## Hard rules
 
 - Keep apps small.
+- Keep the monorepo clean.
+- Use `apps/` for app targets only.
+- Use `libs/ArevKit/` for shared Swift/SwiftUI code.
+- Use `data/` for source/generated data.
+- Use `tools/` for repository tooling.
+- Use `docs/documentation/` for all long-form documentation.
+- Do not create extra top-level folders without updating `docs/documentation/MONOREPO.md`.
+- Do not create extra documentation roots.
+- Do not create `Common`, `Shared`, `Utils`, `Helpers`, `Components`, or similar root folders.
 - Put shared behavior in `ArevKit`.
 - App targets should mostly contain game-specific registration, assets, app metadata, and mode configuration.
 - Use ArevData as the source of truth.
@@ -15,6 +31,41 @@ This repository is documentation-first. Agents should build from these documents
 - Do not create custom leaderboards for arbitrary user settings.
 - Prefer simple, testable Swift types over clever abstractions.
 - Keep commits small and conventional.
+
+## Required structure
+
+```txt
+arevgames/
+  README.md
+  AGENTS.md
+  Package.swift
+  ArevGames.xcworkspace
+  apps/
+    arev-flags/
+    arev-pinpoint/
+    arev-guess-the-country/
+    arev-map-tap/
+  libs/
+    ArevKit/
+      Package.swift
+      Sources/
+        ArevKitCore/
+        ArevKitData/
+        ArevKitUI/
+        ArevKitMap/
+        ArevKitGameCenter/
+        ArevKitTesting/
+      Tests/
+  data/
+    source/
+    generated/
+  tools/
+    export-arev-data/
+  docs/
+    documentation/
+  .github/
+    workflows/
+```
 
 ## Commit policy
 
@@ -37,45 +88,14 @@ Start shared-first, then app-specific.
 
 1. Create repository structure.
 2. Create the Swift package/workspace foundation.
-3. Create `ArevKit` modules.
-4. Create data export scripts and generated sample data.
+3. Create `libs/ArevKit` modules.
+4. Create data export tooling and generated sample data.
 5. Build common UI and game flow.
 6. Build Arev Flags as the first vertical slice.
 7. Add Game Center adapter behind a protocol.
 8. Add Pinpoint map infrastructure.
 9. Add remaining apps using shared components.
 10. Add tests, CI, screenshots, and app metadata.
-
-## Expected target structure
-
-```txt
-arevgames/
-  ArevGames.xcworkspace
-  Package.swift
-  Apps/
-    ArevFlags/
-    ArevGuessTheCountry/
-    ArevPinpoint/
-    ArevMapTap/
-  Packages/
-    ArevKit/
-      Sources/
-        ArevKitCore/
-        ArevKitData/
-        ArevKitUI/
-        ArevKitMap/
-        ArevKitGameCenter/
-        ArevKitTesting/
-      Tests/
-  Data/
-    Source/
-    Generated/
-  Scripts/
-    export-arev-data/
-  docs/
-```
-
-The exact Xcode/project generator may change, but the separation must remain.
 
 ## ArevKit ownership
 
@@ -153,6 +173,13 @@ Minimum tests:
 - Game Center adapter behavior via test double.
 - Local progress persistence.
 - Accessibility labels for core components.
+
+## Documentation rules
+
+- Update existing files in `docs/documentation/` when possible.
+- Do not create `docs/specs`, `docs/plans`, `documentation`, `notes`, `architecture`, or similar folders.
+- App specs belong in `docs/documentation/apps/`.
+- Root docs should stay limited to `README.md`, `AGENTS.md`, and future conventional files such as `LICENSE.md` or `CONTRIBUTING.md`.
 
 ## Definition of done
 
