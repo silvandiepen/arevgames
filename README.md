@@ -19,7 +19,7 @@ apps/                 # app targets only
 libs/ArevKit/          # shared Swift/SwiftUI libraries
 data/                 # source and generated local data
 tools/                # repository tooling, including ArevData export
-docs/documentation/   # all long-form docs and specs
+docs/                 # all long-form docs and specs
 .github/workflows/    # CI
 ```
 
@@ -69,26 +69,26 @@ The iOS apps should consume generated local JSON/assets, not call the hosted API
 Start here:
 
 - [`AGENTS.md`](./AGENTS.md) — mandatory rules for coding agents.
-- [`docs/documentation/README.md`](./docs/documentation/README.md) — documentation index and placement rules.
-- [`docs/documentation/PRODUCT.md`](./docs/documentation/PRODUCT.md) — product scope and app boundaries.
-- [`docs/documentation/MONOREPO.md`](./docs/documentation/MONOREPO.md) — clean monorepo structure.
-- [`docs/documentation/AREVKIT.md`](./docs/documentation/AREVKIT.md) — shared framework responsibilities and core protocols.
-- [`docs/documentation/DATA.md`](./docs/documentation/DATA.md) — ArevData audit, export pipeline, and missing data requirements.
-- [`docs/documentation/GAME_MODES.md`](./docs/documentation/GAME_MODES.md) — complete mode catalog.
-- [`docs/documentation/GAME_SYSTEMS.md`](./docs/documentation/GAME_SYSTEMS.md) — shared gameplay systems.
-- [`docs/documentation/GAME_CENTER.md`](./docs/documentation/GAME_CENTER.md) — leaderboards, achievements, and official presets.
-- [`docs/documentation/UI.md`](./docs/documentation/UI.md) — visual system and screens.
-- [`docs/documentation/PRIVACY_ACCESSIBILITY.md`](./docs/documentation/PRIVACY_ACCESSIBILITY.md) — privacy, accessibility, and child-safe defaults.
-- [`docs/documentation/TESTING_CI.md`](./docs/documentation/TESTING_CI.md) — testing and CI requirements.
-- [`docs/documentation/APP_STORE.md`](./docs/documentation/APP_STORE.md) — App Store metadata and review notes.
-- [`docs/documentation/AGENT_BUILD_PLAN.md`](./docs/documentation/AGENT_BUILD_PLAN.md) — phased build plan for agents.
+- [`docs/README.md`](./docs/README.md) — documentation index and placement rules.
+- [`docs/PRODUCT.md`](./docs/PRODUCT.md) — product scope and app boundaries.
+- [`docs/MONOREPO.md`](./docs/MONOREPO.md) — clean monorepo structure.
+- [`docs/AREVKIT.md`](./docs/AREVKIT.md) — shared framework responsibilities and core protocols.
+- [`docs/DATA.md`](./docs/DATA.md) — ArevData audit, export pipeline, and missing data requirements.
+- [`docs/GAME_MODES.md`](./docs/GAME_MODES.md) — complete mode catalog.
+- [`docs/GAME_SYSTEMS.md`](./docs/GAME_SYSTEMS.md) — shared gameplay systems.
+- [`docs/GAME_CENTER.md`](./docs/GAME_CENTER.md) — leaderboards, achievements, and official presets.
+- [`docs/UI.md`](./docs/UI.md) — visual system and screens.
+- [`docs/PRIVACY_ACCESSIBILITY.md`](./docs/PRIVACY_ACCESSIBILITY.md) — privacy, accessibility, and child-safe defaults.
+- [`docs/TESTING_CI.md`](./docs/TESTING_CI.md) — testing and CI requirements.
+- [`docs/APP_STORE.md`](./docs/APP_STORE.md) — App Store metadata and review notes.
+- [`docs/AGENT_BUILD_PLAN.md`](./docs/AGENT_BUILD_PLAN.md) — phased build plan for agents.
 
 App specs:
 
-- [`docs/documentation/apps/AREV_FLAGS.md`](./docs/documentation/apps/AREV_FLAGS.md)
-- [`docs/documentation/apps/AREV_PINPOINT.md`](./docs/documentation/apps/AREV_PINPOINT.md)
-- [`docs/documentation/apps/AREV_GUESS_THE_COUNTRY.md`](./docs/documentation/apps/AREV_GUESS_THE_COUNTRY.md)
-- [`docs/documentation/apps/AREV_MAP_TAP.md`](./docs/documentation/apps/AREV_MAP_TAP.md)
+- [`docs/apps/AREV_FLAGS.md`](./docs/apps/AREV_FLAGS.md)
+- [`docs/apps/AREV_PINPOINT.md`](./docs/apps/AREV_PINPOINT.md)
+- [`docs/apps/AREV_GUESS_THE_COUNTRY.md`](./docs/apps/AREV_GUESS_THE_COUNTRY.md)
+- [`docs/apps/AREV_MAP_TAP.md`](./docs/apps/AREV_MAP_TAP.md)
 
 ## First build target
 
