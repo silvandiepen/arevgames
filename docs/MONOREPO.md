@@ -35,6 +35,7 @@ arevgames/
     generated/
   tools/
     export-arev-data/
+  site/
   docs/
     apps/
   .github/
@@ -45,9 +46,9 @@ arevgames/
 
 ### `apps/`
 
-App targets only. Each app folder may contain app entry, bundle metadata, assets, entitlements, app-specific mode registration, strings, and Game Center IDs.
+Native app targets only. Each app folder may contain app entry, bundle metadata, assets, entitlements, app-specific mode registration, strings, and Game Center IDs.
 
-App folders must not contain reusable UI, popup wrappers, SVG rendering wrappers, map engines, scoring, data loading, generic quiz logic, progress stores, or Game Center implementation.
+App folders must not contain reusable UI, popup wrappers, SVG rendering wrappers, map engines, scoring, data loading, generic quiz logic, progress stores, Game Center implementation, or the marketing website.
 
 ### `libs/`
 
@@ -66,6 +67,8 @@ data/source/
   export-config.json
   manual-country-obscurity.json
   manual-city-obscurity.json
+  brand/
+    arev-logo.svg
 
 data/generated/
   countries.json
@@ -76,11 +79,21 @@ data/generated/
   app-indexes.json
 ```
 
+The ArevData/arev logo source for app splash screens should be stored under `data/source/brand/` unless the final native asset workflow chooses a stricter app-catalog source path.
+
 ### `tools/`
 
 Repository tooling. The first required tool is `tools/export-arev-data/`.
 
 Do not create both `scripts/` and `tools/`. Use `tools/`.
+
+### `site/`
+
+Static marketing website, matching the Luys-style website structure.
+
+The site uses Vue 3, Vite, Vue Router, Sass, `@sil/ui`, `vue-tsc`, and static deployment to Cloudflare Pages.
+
+Do not put the website inside `apps/`.
 
 ### `docs/`
 
@@ -127,6 +140,8 @@ ArevKitMap -> ArevKitCore
 ArevKitMap -> SVGKit
 ArevKitGameCenter -> ArevKitCore
 ArevKitTesting -> all ArevKit modules
+site -> @sil/ui
+site -> Vue/Vite/Vue Router/Sass
 ```
 
 Forbidden:
@@ -134,6 +149,8 @@ Forbidden:
 ```txt
 apps/* -> PopupView
 apps/* -> SVGKit
+apps/* -> site
+site -> apps/* native source
 ArevKitCore -> SwiftUI
 ArevKitCore -> GameKit
 ArevKitCore -> PopupView
@@ -151,6 +168,7 @@ Agents must not:
 - Create undocumented top-level folders.
 - Create another docs root.
 - Put shared components inside app folders.
+- Put website files inside app folders.
 - Import PopupView directly in app targets.
 - Import SVGKit directly in app targets.
 - Add random `Utils.swift`, `Helpers.swift`, or `Extensions.swift` without a clear module/type purpose.
