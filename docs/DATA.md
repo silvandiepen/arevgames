@@ -19,6 +19,7 @@ Current ArevData coverage is enough for the planned first apps.
 | World map | SVG paths, world viewBox, highlighting helpers | Pinpoint, Map Tap, map clues |
 | Country shapes | standalone country SVG helper derived from world-map data | Guess by Shape |
 | Places | sharded larger place data | Future city expansion only |
+| Brand/logo | ArevData / arev website or source assets | Splash screens and website |
 
 ## Generated data
 
@@ -42,9 +43,9 @@ data/generated/
 
 If SVG is used directly in Swift, PNG generation may be optional, but there must still be local bundled flag assets for gameplay.
 
-## Manual source data
+## Manual source data and brand assets
 
-Use `data/source/` for game-specific overrides:
+Use `data/source/` for game-specific overrides and canonical source assets:
 
 ```txt
 data/source/
@@ -52,7 +53,18 @@ data/source/
   manual-country-obscurity.json
   manual-city-obscurity.json
   app-mode-presets.json
+  brand/
+    arev-logo.svg
 ```
+
+`data/source/brand/arev-logo.svg` should be copied/exported from the actual ArevData/arev logo asset. Do not redraw it manually.
+
+The same source logo should feed:
+
+- iOS splash/launch assets.
+- website logo.
+- favicon generation.
+- any future ArevGames family mark.
 
 Manual overrides should be small and reviewed. Prefer deriving from ArevData.
 
@@ -152,12 +164,14 @@ Responsibilities:
 2. Normalize country codes to uppercase alpha-2.
 3. Generate compact Swift-friendly JSON.
 4. Copy/generate local flag assets.
-5. Generate map path data.
-6. Derive obscurity tiers.
-7. Generate app indexes.
-8. Validate all mode requirements.
-9. Write stable sorted output.
-10. Fail CI on invalid output.
+5. Copy/export the ArevData/arev logo asset.
+6. Generate splash/favicon/logo derivative assets where needed.
+7. Generate map path data.
+8. Derive obscurity tiers.
+9. Generate app indexes.
+10. Validate all mode requirements.
+11. Write stable sorted output.
+12. Fail CI on invalid output.
 
 ## Validation rules
 
@@ -171,6 +185,7 @@ Fail export if:
 - A capital-mode country has no capital coordinate.
 - A generated mode cannot produce enough answer options.
 - JSON output is not deterministic.
+- The required ArevData logo source asset is missing after brand asset export/copy is configured.
 
 Warn if:
 
