@@ -106,6 +106,22 @@ Popup behavior should mirror Luys:
 
 ArevKit should own the popup wrapper. App targets should not call `popup(...)` directly.
 
+## Splash screen
+
+Every iOS app should use the ArevData/arev logo from arevdata.com/source assets on the splash/launch screen.
+
+Rules:
+
+- Use the actual ArevData/arev logo asset.
+- Do not redraw, approximate, or reinterpret the logo.
+- Keep the splash simple: background color + centered logo.
+- Use the same family splash treatment across all ArevGames apps.
+- App-specific identity can appear after launch, not by changing the family logo.
+- Store the canonical splash/logo source in `data/source/brand/arev-logo.svg` or the final selected asset-catalog source path.
+- Use SVGKit/shared SVG wrappers where a Swift-rendered splash/interstitial view is needed after launch.
+
+If iOS launch screen constraints require asset catalog PNG/PDF outputs, generate them from the canonical SVG source.
+
 ## Screens
 
 ### App home
@@ -164,6 +180,7 @@ Create shared components:
 - `ArevSVGView`.
 - `ArevCountryShapeView`.
 - `ArevWorldMapView`.
+- `ArevSplashView`.
 - `ArevPopupCard`.
 - `ArevScorePill`.
 - `ArevProgressIndicator`.
